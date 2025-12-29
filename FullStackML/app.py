@@ -15,11 +15,16 @@ from sklearn.metrics import (mean_absolute_error, mean_squared_error, r2_score,
 st.set_page_config(page_title="Regression vs Classification Pro", layout="wide")
 
 # Load CSS (Added error handling)
-def load_css(file_name):
-    if os.path.exists(file_name):
-        with open(file_name) as f:
+current_dir = os.path.dirname(os.path.abspath(__file__))
+css_path = os.path.join(current_dir, "style.css")
+def load_css(file_path):
+    if os.path.exists(file_path):
+        with open(file_path) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-load_css("style.css")
+    else:
+        # This will help you debug on the cloud
+        st.sidebar.error(f"CSS file not found at: {file_path}")
+load_css(css_path)
 
 # --- TITLE SECTION ---
 st.markdown("""
@@ -150,4 +155,5 @@ with col_plot2:
     ax_roc.set_xlabel("False Positive Rate")
     ax_roc.set_ylabel("True Positive Rate")
     ax_roc.legend()
+
     st.pyplot(fig_roc)
